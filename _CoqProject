@@ -1,0 +1,8 @@
+-Q src TAL
+
+src/Maps.v
+src/TAL0/Eval.v
+src/TAL0/Examples.v
+src/TAL0/Syntax.v
+src/TAL0/TypeSyntax.v
+src/TAL0/TypeSystem.v
