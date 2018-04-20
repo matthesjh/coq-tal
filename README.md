@@ -6,7 +6,7 @@ The implementation was developed as part of a masters seminar. It is based on th
 
 ## Usage
 
-In order to compile the Coq files provided by this repository, the `_CoqProject` file can be used.
+In order to compile the Coq files provided by this repository, the [`_CoqProject`](_CoqProject) file can be used.
 
 ```shell
 coq_makefile -f _CoqProject -o Makefile
