@@ -10,7 +10,7 @@ The implementation was developed as part of a masters seminar. It is based on th
 
 Please make sure that you have installed the Coq Proof Assistant on your operating system. The latest version of Coq can be found [here](https://coq.inria.fr/download).
 
-**Note:** The files have been fully tested with Coq versions 8.7.2, 8.8.2, 8.9.1 and 8.10.0.
+**Note:** The files have been fully tested with Coq versions 8.7.2 to 8.10.1.
 
 In order to compile the Coq files provided by this repository, the [`_CoqProject`](_CoqProject) file can be used.
 
