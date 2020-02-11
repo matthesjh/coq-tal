@@ -1,0 +1,394 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<title>TAL.TAL0.Examples</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library TAL.TAL0.Examples</h1>
+
+<div class="code">
+</div>
+
+<div class="doc">
+Examples for TAL-0: Control-Flow-Safety
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Lists.List.html#"><span class="id" title="library">Coq.Lists.List</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.ZArith.ZArith.html#"><span class="id" title="library">Coq.ZArith.ZArith</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="TAL.Maps.html#"><span class="id" title="library">TAL.Maps</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="TAL.TAL0.Eval.html#"><span class="id" title="library">TAL.TAL0.Eval</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="TAL.TAL0.Syntax.html#"><span class="id" title="library">TAL.TAL0.Syntax</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="TAL.TAL0.TypeSyntax.html#"><span class="id" title="library">TAL.TAL0.TypeSyntax</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="TAL.TAL0.TypeSystem.html#"><span class="id" title="library">TAL.TAL0.TypeSystem</span></a>.<br/>
+<span class="id" title="keyword">Import</span> <span class="id" title="var">ListNotations</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a name="lab5"></a><h1 class="section">The TAL-0 Examples</h1>
+
+</div>
+<div class="code">
+
+<br/>
+</div>
+
+<div class="doc">
+An example of a TAL-0 program:
+<pre>
+prod: r3 := 0;           // res := 0
+      jump loop
+
+loop: if r1 jump done;   // if a = 0 goto done
+      r3 := r3 + r2;     // res := res + b
+      r1 := r1 + -1;     // a := a - 1
+      jump loop
+
+done: jump r4            // return
+</pre>
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="lbl_prod"><span class="id" title="definition">lbl_prod</span></a> : <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#nat"><span class="id" title="inductive">nat</span></a> := 1.<br/>
+<span class="id" title="keyword">Definition</span> <a name="lbl_loop"><span class="id" title="definition">lbl_loop</span></a> : <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#nat"><span class="id" title="inductive">nat</span></a> := 2.<br/>
+<span class="id" title="keyword">Definition</span> <a name="lbl_done"><span class="id" title="definition">lbl_done</span></a> : <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#nat"><span class="id" title="inductive">nat</span></a> := 3.<br/>
+<span class="id" title="keyword">Definition</span> <a name="lbl_exit"><span class="id" title="definition">lbl_exit</span></a> : <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#nat"><span class="id" title="inductive">nat</span></a> := 4.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="reg_1"><span class="id" title="definition">reg_1</span></a> : <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#nat"><span class="id" title="inductive">nat</span></a> := 1.<br/>
+<span class="id" title="keyword">Definition</span> <a name="reg_2"><span class="id" title="definition">reg_2</span></a> : <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#nat"><span class="id" title="inductive">nat</span></a> := 2.<br/>
+<span class="id" title="keyword">Definition</span> <a name="reg_3"><span class="id" title="definition">reg_3</span></a> : <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#nat"><span class="id" title="inductive">nat</span></a> := 3.<br/>
+<span class="id" title="keyword">Definition</span> <a name="reg_4"><span class="id" title="definition">reg_4</span></a> : <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#nat"><span class="id" title="inductive">nat</span></a> := 4.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="iseq_prod"><span class="id" title="definition">iseq_prod</span></a> : <a class="idref" href="TAL.TAL0.Syntax.html#instr_seq"><span class="id" title="inductive">instr_seq</span></a> :=<br/>
+&nbsp;&nbsp;<a class="idref" href="TAL.TAL0.Syntax.html#6ec7a07a2c79623dcc2b261743c7c553"><span class="id" title="notation">R</span></a><a class="idref" href="TAL.TAL0.Syntax.html#6ec7a07a2c79623dcc2b261743c7c553"><span class="id" title="notation">(</span></a><a class="idref" href="TAL.TAL0.Examples.html#reg_3"><span class="id" title="definition">reg_3</span></a><a class="idref" href="TAL.TAL0.Syntax.html#6ec7a07a2c79623dcc2b261743c7c553"><span class="id" title="notation">)</span></a> <a class="idref" href="TAL.TAL0.Syntax.html#6ec7a07a2c79623dcc2b261743c7c553"><span class="id" title="notation">:=</span></a> 0<a class="idref" href="TAL.TAL0.Syntax.html#ddfa557d890d9c0cd173d40cb7db80da"><span class="id" title="notation">;;</span></a><br/>
+&nbsp;&nbsp;<a class="idref" href="TAL.TAL0.Syntax.html#9c2d1bf6c591eebbf7fdc54ee61aee12"><span class="id" title="notation">JMP</span></a> <a class="idref" href="TAL.TAL0.Examples.html#lbl_loop"><span class="id" title="definition">lbl_loop</span></a>.<br/>
+<span class="id" title="keyword">Definition</span> <a name="iseq_loop"><span class="id" title="definition">iseq_loop</span></a> : <a class="idref" href="TAL.TAL0.Syntax.html#instr_seq"><span class="id" title="inductive">instr_seq</span></a> :=<br/>
+&nbsp;&nbsp;<a class="idref" href="TAL.TAL0.Syntax.html#de6237d441110393afd732fcf9845206"><span class="id" title="notation">JIF</span></a> <a class="idref" href="TAL.TAL0.Syntax.html#de6237d441110393afd732fcf9845206"><span class="id" title="notation">R</span></a><a class="idref" href="TAL.TAL0.Syntax.html#de6237d441110393afd732fcf9845206"><span class="id" title="notation">(</span></a><a class="idref" href="TAL.TAL0.Examples.html#reg_1"><span class="id" title="definition">reg_1</span></a><a class="idref" href="TAL.TAL0.Syntax.html#de6237d441110393afd732fcf9845206"><span class="id" title="notation">)</span></a> <a class="idref" href="TAL.TAL0.Examples.html#lbl_done"><span class="id" title="definition">lbl_done</span></a><a class="idref" href="TAL.TAL0.Syntax.html#ddfa557d890d9c0cd173d40cb7db80da"><span class="id" title="notation">;;</span></a><br/>
+&nbsp;&nbsp;<a class="idref" href="TAL.TAL0.Syntax.html#cf16f6469c85361ec39d85dc0165b3eb"><span class="id" title="notation">R</span></a><a class="idref" href="TAL.TAL0.Syntax.html#cf16f6469c85361ec39d85dc0165b3eb"><span class="id" title="notation">(</span></a><a class="idref" href="TAL.TAL0.Examples.html#reg_3"><span class="id" title="definition">reg_3</span></a><a class="idref" href="TAL.TAL0.Syntax.html#cf16f6469c85361ec39d85dc0165b3eb"><span class="id" title="notation">)</span></a> <a class="idref" href="TAL.TAL0.Syntax.html#cf16f6469c85361ec39d85dc0165b3eb"><span class="id" title="notation">+:=</span></a> <a class="idref" href="TAL.TAL0.Syntax.html#cf16f6469c85361ec39d85dc0165b3eb"><span class="id" title="notation">R</span></a><a class="idref" href="TAL.TAL0.Syntax.html#cf16f6469c85361ec39d85dc0165b3eb"><span class="id" title="notation">(</span></a><a class="idref" href="TAL.TAL0.Examples.html#reg_2"><span class="id" title="definition">reg_2</span></a><a class="idref" href="TAL.TAL0.Syntax.html#cf16f6469c85361ec39d85dc0165b3eb"><span class="id" title="notation">)</span></a><a class="idref" href="TAL.TAL0.Syntax.html#ddfa557d890d9c0cd173d40cb7db80da"><span class="id" title="notation">;;</span></a><br/>
+&nbsp;&nbsp;<a class="idref" href="TAL.TAL0.Syntax.html#112544aa46d55ea24340ea88f19aab5c"><span class="id" title="notation">R</span></a><a class="idref" href="TAL.TAL0.Syntax.html#112544aa46d55ea24340ea88f19aab5c"><span class="id" title="notation">(</span></a><a class="idref" href="TAL.TAL0.Examples.html#reg_1"><span class="id" title="definition">reg_1</span></a><a class="idref" href="TAL.TAL0.Syntax.html#112544aa46d55ea24340ea88f19aab5c"><span class="id" title="notation">)</span></a> <a class="idref" href="TAL.TAL0.Syntax.html#112544aa46d55ea24340ea88f19aab5c"><span class="id" title="notation">+:=</span></a> -1<a class="idref" href="TAL.TAL0.Syntax.html#ddfa557d890d9c0cd173d40cb7db80da"><span class="id" title="notation">;;</span></a><br/>
+&nbsp;&nbsp;<a class="idref" href="TAL.TAL0.Syntax.html#9c2d1bf6c591eebbf7fdc54ee61aee12"><span class="id" title="notation">JMP</span></a> <a class="idref" href="TAL.TAL0.Examples.html#lbl_loop"><span class="id" title="definition">lbl_loop</span></a>.<br/>
+<span class="id" title="keyword">Definition</span> <a name="iseq_done"><span class="id" title="definition">iseq_done</span></a> : <a class="idref" href="TAL.TAL0.Syntax.html#instr_seq"><span class="id" title="inductive">instr_seq</span></a> :=<br/>
+&nbsp;&nbsp;<a class="idref" href="TAL.TAL0.Syntax.html#5d43748792e135674ac7118906403238"><span class="id" title="notation">JMP</span></a> <a class="idref" href="TAL.TAL0.Syntax.html#5d43748792e135674ac7118906403238"><span class="id" title="notation">R</span></a><a class="idref" href="TAL.TAL0.Syntax.html#5d43748792e135674ac7118906403238"><span class="id" title="notation">(</span></a><a class="idref" href="TAL.TAL0.Examples.html#reg_4"><span class="id" title="definition">reg_4</span></a><a class="idref" href="TAL.TAL0.Syntax.html#5d43748792e135674ac7118906403238"><span class="id" title="notation">)</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+The initial heap:
+<pre>
+H = {prod = iseq_prod, loop = iseq_loop, done = iseq_done}
+</pre>
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="init_heap"><span class="id" title="definition">init_heap</span></a> : <a class="idref" href="TAL.TAL0.Syntax.html#heap"><span class="id" title="definition">heap</span></a> :=<br/>
+&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Lists.List.html#fold_right"><span class="id" title="definition">fold_right</span></a> (<span class="id" title="keyword">fun</span> <span class="id" title="var">p</span> <span class="id" title="var">H</span> ⇒ <a class="idref" href="TAL.Maps.html#p_update"><span class="id" title="definition">p_update</span></a> <a class="idref" href="TAL.TAL0.Examples.html#H"><span class="id" title="variable">H</span></a> (<a class="idref" href="TAL.Maps.html#Id"><span class="id" title="constructor">Id</span></a> (<a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#fst"><span class="id" title="definition">fst</span></a> <a class="idref" href="TAL.TAL0.Examples.html#p"><span class="id" title="variable">p</span></a>)) (<a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#snd"><span class="id" title="definition">snd</span></a> <a class="idref" href="TAL.TAL0.Examples.html#p"><span class="id" title="variable">p</span></a>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="TAL.TAL0.Syntax.html#empty_heap"><span class="id" title="definition">empty_heap</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Lists.List.html#e76c6291366b599375c28eba0aae94bb"><span class="id" title="notation">[</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">(</span></a><a class="idref" href="TAL.TAL0.Examples.html#lbl_prod"><span class="id" title="definition">lbl_prod</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">,</span></a> <a class="idref" href="TAL.TAL0.Examples.html#iseq_prod"><span class="id" title="definition">iseq_prod</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">)</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Lists.List.html#e76c6291366b599375c28eba0aae94bb"><span class="id" title="notation">;</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">(</span></a><a class="idref" href="TAL.TAL0.Examples.html#lbl_loop"><span class="id" title="definition">lbl_loop</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">,</span></a> <a class="idref" href="TAL.TAL0.Examples.html#iseq_loop"><span class="id" title="definition">iseq_loop</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">)</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Lists.List.html#e76c6291366b599375c28eba0aae94bb"><span class="id" title="notation">;</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">(</span></a><a class="idref" href="TAL.TAL0.Examples.html#lbl_done"><span class="id" title="definition">lbl_done</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">,</span></a> <a class="idref" href="TAL.TAL0.Examples.html#iseq_done"><span class="id" title="definition">iseq_done</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">)</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Lists.List.html#e76c6291366b599375c28eba0aae94bb"><span class="id" title="notation">]</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+The initial register file:
+<pre>
+R_0 = {r_1 = 2, r_2 = 2, r_3 = 0, r_4 = exit, …}
+</pre>
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="init_regs"><span class="id" title="definition">init_regs</span></a> : <a class="idref" href="TAL.TAL0.Syntax.html#regs"><span class="id" title="definition">regs</span></a> :=<br/>
+&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Lists.List.html#fold_right"><span class="id" title="definition">fold_right</span></a> (<span class="id" title="keyword">fun</span> <span class="id" title="var">p</span> <span class="id" title="var">R</span> ⇒ <a class="idref" href="TAL.Maps.html#t_update"><span class="id" title="definition">t_update</span></a> <a class="idref" href="TAL.TAL0.Examples.html#R"><span class="id" title="variable">R</span></a> (<a class="idref" href="TAL.Maps.html#Id"><span class="id" title="constructor">Id</span></a> (<a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#fst"><span class="id" title="definition">fst</span></a> <a class="idref" href="TAL.TAL0.Examples.html#p"><span class="id" title="variable">p</span></a>)) (<a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#snd"><span class="id" title="definition">snd</span></a> <a class="idref" href="TAL.TAL0.Examples.html#p"><span class="id" title="variable">p</span></a>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="TAL.TAL0.Syntax.html#empty_regs"><span class="id" title="definition">empty_regs</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Lists.List.html#e76c6291366b599375c28eba0aae94bb"><span class="id" title="notation">[</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">(</span></a><a class="idref" href="TAL.TAL0.Examples.html#reg_1"><span class="id" title="definition">reg_1</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">,</span></a> <a class="idref" href="TAL.TAL0.Syntax.html#RNum"><span class="id" title="constructor">RNum</span></a> (<a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.ZArith.BinInt.html#Z.two"><span class="id" title="definition">Z.two</span></a>)<a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">)</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Lists.List.html#e76c6291366b599375c28eba0aae94bb"><span class="id" title="notation">;</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">(</span></a><a class="idref" href="TAL.TAL0.Examples.html#reg_2"><span class="id" title="definition">reg_2</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">,</span></a> <a class="idref" href="TAL.TAL0.Syntax.html#RNum"><span class="id" title="constructor">RNum</span></a> (<a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.ZArith.BinInt.html#Z.two"><span class="id" title="definition">Z.two</span></a>)<a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">)</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Lists.List.html#e76c6291366b599375c28eba0aae94bb"><span class="id" title="notation">;</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">(</span></a><a class="idref" href="TAL.TAL0.Examples.html#reg_3"><span class="id" title="definition">reg_3</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">,</span></a> <a class="idref" href="TAL.TAL0.Syntax.html#RNum"><span class="id" title="constructor">RNum</span></a> (<a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.ZArith.BinInt.html#Z.zero"><span class="id" title="definition">Z.zero</span></a>)<a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">)</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Lists.List.html#e76c6291366b599375c28eba0aae94bb"><span class="id" title="notation">;</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">(</span></a><a class="idref" href="TAL.TAL0.Examples.html#reg_4"><span class="id" title="definition">reg_4</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">,</span></a> <a class="idref" href="TAL.TAL0.Syntax.html#RLbl"><span class="id" title="constructor">RLbl</span></a> (<a class="idref" href="TAL.TAL0.Examples.html#lbl_exit"><span class="id" title="definition">lbl_exit</span></a>)<a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">)</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Lists.List.html#e76c6291366b599375c28eba0aae94bb"><span class="id" title="notation">]</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+The initial machine state:
+<pre>
+M_0 = (H, R_0, jump prod)
+</pre>
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="init_mstate"><span class="id" title="definition">init_mstate</span></a> : <a class="idref" href="TAL.TAL0.Syntax.html#mstate"><span class="id" title="inductive">mstate</span></a> := <a class="idref" href="TAL.TAL0.Syntax.html#MSt"><span class="id" title="constructor">MSt</span></a> <a class="idref" href="TAL.TAL0.Examples.html#init_heap"><span class="id" title="definition">init_heap</span></a> <a class="idref" href="TAL.TAL0.Examples.html#init_regs"><span class="id" title="definition">init_regs</span></a> (<a class="idref" href="TAL.TAL0.Syntax.html#9c2d1bf6c591eebbf7fdc54ee61aee12"><span class="id" title="notation">JMP</span></a> <a class="idref" href="TAL.TAL0.Examples.html#lbl_prod"><span class="id" title="definition">lbl_prod</span></a>).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Check whether the execution successfully terminates after thirteen steps:
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Example</span> <a name="ex_mseval_succ"><span class="id" title="definition">ex_mseval_succ</span></a> :<br/>
+&nbsp;&nbsp;<a class="idref" href="TAL.TAL0.Eval.html#mseval_n"><span class="id" title="definition">mseval_n</span></a> 13 <a class="idref" href="TAL.TAL0.Examples.html#init_mstate"><span class="id" title="definition">init_mstate</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Logic.html#6cd0f7b28b6092304087c7049437bb1a"><span class="id" title="notation">=</span></a> <a class="idref" href="TAL.TAL0.Eval.html#ESSucc"><span class="id" title="constructor">ESSucc</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">reflexivity</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Check whether the execution terminates with the expected result:
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Example</span> <a name="ex_mseval_res"><span class="id" title="definition">ex_mseval_res</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">match</span> <a class="idref" href="TAL.TAL0.Eval.html#mseval_n"><span class="id" title="definition">mseval_n</span></a> 12 <a class="idref" href="TAL.TAL0.Examples.html#init_mstate"><span class="id" title="definition">init_mstate</span></a> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="TAL.TAL0.Eval.html#ESTrans"><span class="id" title="constructor">ESTrans</span></a> (<a class="idref" href="TAL.TAL0.Syntax.html#MSt"><span class="id" title="constructor">MSt</span></a> <span class="id" title="var">_</span> <span class="id" title="var">R</span> (<a class="idref" href="TAL.TAL0.Syntax.html#5d43748792e135674ac7118906403238"><span class="id" title="notation">JMP</span></a> <a class="idref" href="TAL.TAL0.Syntax.html#5d43748792e135674ac7118906403238"><span class="id" title="notation">R</span></a><a class="idref" href="TAL.TAL0.Syntax.html#5d43748792e135674ac7118906403238"><span class="id" title="notation">(</span></a>4<a class="idref" href="TAL.TAL0.Syntax.html#5d43748792e135674ac7118906403238"><span class="id" title="notation">)</span></a>)) ⇒ <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#Some"><span class="id" title="constructor">Some</span></a> (<span class="id" title="var">R</span> (<a class="idref" href="TAL.Maps.html#Id"><span class="id" title="constructor">Id</span></a> <a class="idref" href="TAL.TAL0.Examples.html#reg_3"><span class="id" title="definition">reg_3</span></a>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id" title="var">_</span>                            ⇒ <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#None"><span class="id" title="constructor">None</span></a><br/>
+&nbsp;&nbsp;<span class="id" title="keyword">end</span> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Logic.html#6cd0f7b28b6092304087c7049437bb1a"><span class="id" title="notation">=</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#Some"><span class="id" title="constructor">Some</span></a> (<a class="idref" href="TAL.TAL0.Syntax.html#RNum"><span class="id" title="constructor">RNum</span></a> (<a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.ZArith.BinInt.html#Z.of_nat"><span class="id" title="definition">Z.of_nat</span></a> 4)).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">unfold</span> <a class="idref" href="TAL.Maps.html#t_update"><span class="id" title="definition">t_update</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">reflexivity</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Check whether the <span class="inlinecode"><span class="id" title="var">loop</span></span> label is reached:
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Example</span> <a name="ex_mseval_prop_jump_to_loop"><span class="id" title="definition">ex_mseval_prop_jump_to_loop</span></a> :<br/>
+&nbsp;&nbsp;<a class="idref" href="TAL.TAL0.Eval.html#mseval_prop_n"><span class="id" title="inductive">mseval_prop_n</span></a> <a class="idref" href="TAL.TAL0.Examples.html#init_mstate"><span class="id" title="definition">init_mstate</span></a> (<a class="idref" href="TAL.TAL0.Syntax.html#MSt"><span class="id" title="constructor">MSt</span></a> <a class="idref" href="TAL.TAL0.Examples.html#init_heap"><span class="id" title="definition">init_heap</span></a> <a class="idref" href="TAL.TAL0.Examples.html#init_regs"><span class="id" title="definition">init_regs</span></a> <a class="idref" href="TAL.TAL0.Examples.html#iseq_loop"><span class="id" title="definition">iseq_loop</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">unfold</span> <a class="idref" href="TAL.TAL0.Examples.html#init_mstate"><span class="id" title="definition">init_mstate</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="TAL.TAL0.Eval.html#R_Seq2"><span class="id" title="constructor">R_Seq2</span></a> <span class="id" title="keyword">with</span> (<span class="id" title="var">ms'</span> := <a class="idref" href="TAL.TAL0.Syntax.html#MSt"><span class="id" title="constructor">MSt</span></a> <a class="idref" href="TAL.TAL0.Examples.html#init_heap"><span class="id" title="definition">init_heap</span></a> <a class="idref" href="TAL.TAL0.Examples.html#init_regs"><span class="id" title="definition">init_regs</span></a> <a class="idref" href="TAL.TAL0.Examples.html#iseq_prod"><span class="id" title="definition">iseq_prod</span></a>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">eapply</span> <a class="idref" href="TAL.TAL0.Eval.html#R_Jump"><span class="id" title="constructor">R_Jump</span></a>; <span class="id" title="tactic">reflexivity</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <a class="idref" href="TAL.TAL0.Eval.html#R_Seq2"><span class="id" title="constructor">R_Seq2</span></a> <span class="id" title="keyword">with</span> (<span class="id" title="var">ms'</span> := <a class="idref" href="TAL.TAL0.Syntax.html#MSt"><span class="id" title="constructor">MSt</span></a> <a class="idref" href="TAL.TAL0.Examples.html#init_heap"><span class="id" title="definition">init_heap</span></a> <a class="idref" href="TAL.TAL0.Examples.html#init_regs"><span class="id" title="definition">init_regs</span></a> (<a class="idref" href="TAL.TAL0.Syntax.html#9c2d1bf6c591eebbf7fdc54ee61aee12"><span class="id" title="notation">JMP</span></a> <a class="idref" href="TAL.TAL0.Examples.html#lbl_loop"><span class="id" title="definition">lbl_loop</span></a>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">unfold</span> <a class="idref" href="TAL.TAL0.Examples.html#iseq_prod"><span class="id" title="definition">iseq_prod</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">eapply</span> <a class="idref" href="TAL.TAL0.Eval.html#R_Mov"><span class="id" title="constructor">R_Mov</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;× <span class="id" title="tactic">reflexivity</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;× <span class="id" title="tactic">rewrite</span> <a class="idref" href="TAL.Maps.html#t_update_same"><span class="id" title="axiom">t_update_same</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">reflexivity</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">apply</span> <a class="idref" href="TAL.TAL0.Eval.html#R_Seq1"><span class="id" title="constructor">R_Seq1</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">eapply</span> <a class="idref" href="TAL.TAL0.Eval.html#R_Jump"><span class="id" title="constructor">R_Jump</span></a>; <span class="id" title="tactic">reflexivity</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Let us verify that the instruction sequence associated with <span class="inlinecode"><span class="id" title="var">loop</span></span> is
+    indeed well-formed with the type that we have assigned it.
+
+<div class="paragraph"> </div>
+
+ The register file type:
+<pre>
+Γ = {r_1 : int, r_2 : int, r_3 : int,
+     r_4 : ∀α.code{r_1 : int, r_2 : int, r_3 : int, r_4 : α}, …}
+</pre>
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="gamma_reg_4"><span class="id" title="definition">gamma_reg_4</span></a> : <a class="idref" href="TAL.TAL0.TypeSyntax.html#ty_map"><span class="id" title="definition">ty_map</span></a> :=<br/>
+&nbsp;&nbsp;<a class="idref" href="TAL.TAL0.TypeSyntax.html#ty_update_list"><span class="id" title="definition">ty_update_list</span></a> <a class="idref" href="TAL.TAL0.TypeSyntax.html#empty_ty_map"><span class="id" title="definition">empty_ty_map</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Lists.List.html#e76c6291366b599375c28eba0aae94bb"><span class="id" title="notation">[</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">(</span></a><a class="idref" href="TAL.TAL0.Examples.html#reg_1"><span class="id" title="definition">reg_1</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">,</span></a> <a class="idref" href="TAL.TAL0.TypeSyntax.html#3650ede81c6e3a94ca6783546663681a"><span class="id" title="notation">int</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">)</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Lists.List.html#e76c6291366b599375c28eba0aae94bb"><span class="id" title="notation">;</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">(</span></a><a class="idref" href="TAL.TAL0.Examples.html#reg_2"><span class="id" title="definition">reg_2</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">,</span></a> <a class="idref" href="TAL.TAL0.TypeSyntax.html#3650ede81c6e3a94ca6783546663681a"><span class="id" title="notation">int</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">)</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Lists.List.html#e76c6291366b599375c28eba0aae94bb"><span class="id" title="notation">;</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">(</span></a><a class="idref" href="TAL.TAL0.Examples.html#reg_3"><span class="id" title="definition">reg_3</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">,</span></a> <a class="idref" href="TAL.TAL0.TypeSyntax.html#3650ede81c6e3a94ca6783546663681a"><span class="id" title="notation">int</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">)</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Lists.List.html#e76c6291366b599375c28eba0aae94bb"><span class="id" title="notation">;</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">(</span></a><a class="idref" href="TAL.TAL0.Examples.html#reg_4"><span class="id" title="definition">reg_4</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">,</span></a> <a class="idref" href="TAL.TAL0.TypeSyntax.html#TAlpha"><span class="id" title="constructor">TAlpha</span></a> 0<a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">)</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Lists.List.html#e76c6291366b599375c28eba0aae94bb"><span class="id" title="notation">]</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="gamma"><span class="id" title="definition">gamma</span></a> : <a class="idref" href="TAL.TAL0.TypeSyntax.html#ty_map"><span class="id" title="definition">ty_map</span></a> :=<br/>
+&nbsp;&nbsp;<a class="idref" href="TAL.TAL0.TypeSyntax.html#ty_update_list"><span class="id" title="definition">ty_update_list</span></a> <a class="idref" href="TAL.TAL0.TypeSyntax.html#empty_ty_map"><span class="id" title="definition">empty_ty_map</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Lists.List.html#e76c6291366b599375c28eba0aae94bb"><span class="id" title="notation">[</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">(</span></a><a class="idref" href="TAL.TAL0.Examples.html#reg_1"><span class="id" title="definition">reg_1</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">,</span></a> <a class="idref" href="TAL.TAL0.TypeSyntax.html#3650ede81c6e3a94ca6783546663681a"><span class="id" title="notation">int</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">)</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Lists.List.html#e76c6291366b599375c28eba0aae94bb"><span class="id" title="notation">;</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">(</span></a><a class="idref" href="TAL.TAL0.Examples.html#reg_2"><span class="id" title="definition">reg_2</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">,</span></a> <a class="idref" href="TAL.TAL0.TypeSyntax.html#3650ede81c6e3a94ca6783546663681a"><span class="id" title="notation">int</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">)</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Lists.List.html#e76c6291366b599375c28eba0aae94bb"><span class="id" title="notation">;</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">(</span></a><a class="idref" href="TAL.TAL0.Examples.html#reg_3"><span class="id" title="definition">reg_3</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">,</span></a> <a class="idref" href="TAL.TAL0.TypeSyntax.html#3650ede81c6e3a94ca6783546663681a"><span class="id" title="notation">int</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">)</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Lists.List.html#e76c6291366b599375c28eba0aae94bb"><span class="id" title="notation">;</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">(</span></a><a class="idref" href="TAL.TAL0.Examples.html#reg_4"><span class="id" title="definition">reg_4</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">,</span></a> <a class="idref" href="TAL.TAL0.TypeSyntax.html#ee3e8c436ebdccde5d16404bf309ab43"><span class="id" title="notation">∀</span></a>0<a class="idref" href="TAL.TAL0.TypeSyntax.html#ee3e8c436ebdccde5d16404bf309ab43"><span class="id" title="notation">.&gt;</span></a><a class="idref" href="TAL.TAL0.TypeSyntax.html#1fb955639179a95be9f1a832807f86c8"><span class="id" title="notation">code</span></a><a class="idref" href="TAL.TAL0.TypeSyntax.html#1fb955639179a95be9f1a832807f86c8"><span class="id" title="notation">(</span></a><a class="idref" href="TAL.TAL0.Examples.html#gamma_reg_4"><span class="id" title="definition">gamma_reg_4</span></a><a class="idref" href="TAL.TAL0.TypeSyntax.html#1fb955639179a95be9f1a832807f86c8"><span class="id" title="notation">)</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">)</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Lists.List.html#e76c6291366b599375c28eba0aae94bb"><span class="id" title="notation">]</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+The heap type:
+<pre>
+Ψ = {prod : code(Γ), loop : code(Γ), done : code(Γ),
+     exit : ∀α.code{r_1 : int, r_2 : int, r_3 : int, r_4 : α}}
+</pre>
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="psi"><span class="id" title="definition">psi</span></a> : <a class="idref" href="TAL.TAL0.TypeSyntax.html#ty_map"><span class="id" title="definition">ty_map</span></a> :=<br/>
+&nbsp;&nbsp;<a class="idref" href="TAL.TAL0.TypeSyntax.html#ty_update_list"><span class="id" title="definition">ty_update_list</span></a> <a class="idref" href="TAL.TAL0.TypeSyntax.html#empty_ty_map"><span class="id" title="definition">empty_ty_map</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Lists.List.html#e76c6291366b599375c28eba0aae94bb"><span class="id" title="notation">[</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">(</span></a><a class="idref" href="TAL.TAL0.Examples.html#lbl_prod"><span class="id" title="definition">lbl_prod</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">,</span></a> <a class="idref" href="TAL.TAL0.TypeSyntax.html#1fb955639179a95be9f1a832807f86c8"><span class="id" title="notation">code</span></a><a class="idref" href="TAL.TAL0.TypeSyntax.html#1fb955639179a95be9f1a832807f86c8"><span class="id" title="notation">(</span></a><a class="idref" href="TAL.TAL0.Examples.html#gamma"><span class="id" title="definition">gamma</span></a><a class="idref" href="TAL.TAL0.TypeSyntax.html#1fb955639179a95be9f1a832807f86c8"><span class="id" title="notation">)</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">)</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Lists.List.html#e76c6291366b599375c28eba0aae94bb"><span class="id" title="notation">;</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">(</span></a><a class="idref" href="TAL.TAL0.Examples.html#lbl_loop"><span class="id" title="definition">lbl_loop</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">,</span></a> <a class="idref" href="TAL.TAL0.TypeSyntax.html#1fb955639179a95be9f1a832807f86c8"><span class="id" title="notation">code</span></a><a class="idref" href="TAL.TAL0.TypeSyntax.html#1fb955639179a95be9f1a832807f86c8"><span class="id" title="notation">(</span></a><a class="idref" href="TAL.TAL0.Examples.html#gamma"><span class="id" title="definition">gamma</span></a><a class="idref" href="TAL.TAL0.TypeSyntax.html#1fb955639179a95be9f1a832807f86c8"><span class="id" title="notation">)</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">)</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Lists.List.html#e76c6291366b599375c28eba0aae94bb"><span class="id" title="notation">;</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">(</span></a><a class="idref" href="TAL.TAL0.Examples.html#lbl_done"><span class="id" title="definition">lbl_done</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">,</span></a> <a class="idref" href="TAL.TAL0.TypeSyntax.html#1fb955639179a95be9f1a832807f86c8"><span class="id" title="notation">code</span></a><a class="idref" href="TAL.TAL0.TypeSyntax.html#1fb955639179a95be9f1a832807f86c8"><span class="id" title="notation">(</span></a><a class="idref" href="TAL.TAL0.Examples.html#gamma"><span class="id" title="definition">gamma</span></a><a class="idref" href="TAL.TAL0.TypeSyntax.html#1fb955639179a95be9f1a832807f86c8"><span class="id" title="notation">)</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">)</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Lists.List.html#e76c6291366b599375c28eba0aae94bb"><span class="id" title="notation">;</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">(</span></a><a class="idref" href="TAL.TAL0.Examples.html#lbl_exit"><span class="id" title="definition">lbl_exit</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">,</span></a> <a class="idref" href="TAL.TAL0.TypeSyntax.html#ee3e8c436ebdccde5d16404bf309ab43"><span class="id" title="notation">∀</span></a>0<a class="idref" href="TAL.TAL0.TypeSyntax.html#ee3e8c436ebdccde5d16404bf309ab43"><span class="id" title="notation">.&gt;</span></a><a class="idref" href="TAL.TAL0.TypeSyntax.html#1fb955639179a95be9f1a832807f86c8"><span class="id" title="notation">code</span></a><a class="idref" href="TAL.TAL0.TypeSyntax.html#1fb955639179a95be9f1a832807f86c8"><span class="id" title="notation">(</span></a><a class="idref" href="TAL.TAL0.Examples.html#gamma_reg_4"><span class="id" title="definition">gamma_reg_4</span></a><a class="idref" href="TAL.TAL0.TypeSyntax.html#1fb955639179a95be9f1a832807f86c8"><span class="id" title="notation">)</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">)</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Lists.List.html#e76c6291366b599375c28eba0aae94bb"><span class="id" title="notation">]</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Example</span> <a name="ex_loop_type_check"><span class="id" title="definition">ex_loop_type_check</span></a> :<br/>
+&nbsp;&nbsp;<a class="idref" href="TAL.TAL0.TypeSystem.html#instr_seq_has_type"><span class="id" title="inductive">instr_seq_has_type</span></a> (<a class="idref" href="TAL.TAL0.TypeSystem.html#PsiCtx"><span class="id" title="constructor">PsiCtx</span></a> <a class="idref" href="TAL.TAL0.Examples.html#psi"><span class="id" title="definition">psi</span></a>) <a class="idref" href="TAL.TAL0.Examples.html#iseq_loop"><span class="id" title="definition">iseq_loop</span></a> <a class="idref" href="TAL.TAL0.TypeSyntax.html#1fb955639179a95be9f1a832807f86c8"><span class="id" title="notation">code</span></a><a class="idref" href="TAL.TAL0.TypeSyntax.html#1fb955639179a95be9f1a832807f86c8"><span class="id" title="notation">(</span></a><a class="idref" href="TAL.TAL0.Examples.html#gamma"><span class="id" title="definition">gamma</span></a><a class="idref" href="TAL.TAL0.TypeSyntax.html#1fb955639179a95be9f1a832807f86c8"><span class="id" title="notation">)</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">unfold</span> <a class="idref" href="TAL.TAL0.Examples.html#iseq_loop"><span class="id" title="definition">iseq_loop</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">eapply</span> <a class="idref" href="TAL.TAL0.TypeSystem.html#S_Seq"><span class="id" title="constructor">S_Seq</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <a class="idref" href="TAL.TAL0.TypeSystem.html#S_If"><span class="id" title="constructor">S_If</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">apply</span> <a class="idref" href="TAL.TAL0.TypeSystem.html#S_Reg"><span class="id" title="constructor">S_Reg</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">reflexivity</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">apply</span> <a class="idref" href="TAL.TAL0.TypeSystem.html#S_Val"><span class="id" title="constructor">S_Val</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="TAL.TAL0.TypeSystem.html#S_Lab"><span class="id" title="constructor">S_Lab</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">reflexivity</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">eapply</span> <a class="idref" href="TAL.TAL0.TypeSystem.html#S_Seq"><span class="id" title="constructor">S_Seq</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">apply</span> <a class="idref" href="TAL.TAL0.TypeSystem.html#S_Add"><span class="id" title="constructor">S_Add</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;× <span class="id" title="tactic">apply</span> <a class="idref" href="TAL.TAL0.TypeSystem.html#S_Reg"><span class="id" title="constructor">S_Reg</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">reflexivity</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;× <span class="id" title="tactic">apply</span> <a class="idref" href="TAL.TAL0.TypeSystem.html#S_Reg"><span class="id" title="constructor">S_Reg</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">reflexivity</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;× <span class="id" title="tactic">reflexivity</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">eapply</span> <a class="idref" href="TAL.TAL0.TypeSystem.html#S_Seq"><span class="id" title="constructor">S_Seq</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;× <span class="id" title="tactic">apply</span> <a class="idref" href="TAL.TAL0.TypeSystem.html#S_Add"><span class="id" title="constructor">S_Add</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- <span class="id" title="tactic">apply</span> <a class="idref" href="TAL.TAL0.TypeSystem.html#S_Reg"><span class="id" title="constructor">S_Reg</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">reflexivity</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- <span class="id" title="tactic">apply</span> <a class="idref" href="TAL.TAL0.TypeSystem.html#S_Val"><span class="id" title="constructor">S_Val</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="TAL.TAL0.TypeSystem.html#S_Int"><span class="id" title="constructor">S_Int</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- <span class="id" title="tactic">reflexivity</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;× <span class="id" title="tactic">apply</span> <a class="idref" href="TAL.TAL0.TypeSystem.html#S_Jump"><span class="id" title="constructor">S_Jump</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="TAL.TAL0.TypeSystem.html#S_Val"><span class="id" title="constructor">S_Val</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="TAL.TAL0.TypeSystem.html#S_Lab"><span class="id" title="constructor">S_Lab</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">reflexivity</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Example</span> <a name="ex_loop_type_check_b"><span class="id" title="definition">ex_loop_type_check_b</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">match</span> <a class="idref" href="TAL.TAL0.TypeSystem.html#instr_seq_type"><span class="id" title="definition">instr_seq_type</span></a> (<a class="idref" href="TAL.TAL0.TypeSystem.html#PsiCtx"><span class="id" title="constructor">PsiCtx</span></a> <a class="idref" href="TAL.TAL0.Examples.html#psi"><span class="id" title="definition">psi</span></a>) <a class="idref" href="TAL.TAL0.Examples.html#gamma"><span class="id" title="definition">gamma</span></a> <a class="idref" href="TAL.TAL0.Examples.html#iseq_loop"><span class="id" title="definition">iseq_loop</span></a> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#Some"><span class="id" title="constructor">Some</span></a> <a class="idref" href="TAL.TAL0.TypeSyntax.html#1fb955639179a95be9f1a832807f86c8"><span class="id" title="notation">code</span></a><a class="idref" href="TAL.TAL0.TypeSyntax.html#1fb955639179a95be9f1a832807f86c8"><span class="id" title="notation">(</span></a><span class="id" title="var">Γ</span><a class="idref" href="TAL.TAL0.TypeSyntax.html#1fb955639179a95be9f1a832807f86c8"><span class="id" title="notation">)</span></a> ⇒ <a class="idref" href="TAL.TAL0.TypeSyntax.html#beq_ty_map"><span class="id" title="definition">beq_ty_map</span></a> <a class="idref" href="TAL.TAL0.Examples.html#gamma"><span class="id" title="definition">gamma</span></a> <span class="id" title="var">Γ</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id" title="var">_</span>            ⇒ <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#false"><span class="id" title="constructor">false</span></a><br/>
+&nbsp;&nbsp;<span class="id" title="keyword">end</span> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Logic.html#6cd0f7b28b6092304087c7049437bb1a"><span class="id" title="notation">=</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#true"><span class="id" title="constructor">true</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">reflexivity</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Let us verify that the register file from above is well-formed with the
+    register file type that we have assigned it.
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Example</span> <a name="ex_regs_type_check_b"><span class="id" title="definition">ex_regs_type_check_b</span></a> :<br/>
+&nbsp;&nbsp;<a class="idref" href="TAL.TAL0.TypeSystem.html#regs_typed"><span class="id" title="definition">regs_typed</span></a> (<a class="idref" href="TAL.TAL0.TypeSystem.html#PsiCtx"><span class="id" title="constructor">PsiCtx</span></a> <a class="idref" href="TAL.TAL0.Examples.html#psi"><span class="id" title="definition">psi</span></a>) <a class="idref" href="TAL.TAL0.Examples.html#gamma"><span class="id" title="definition">gamma</span></a> <a class="idref" href="TAL.TAL0.Examples.html#init_regs"><span class="id" title="definition">init_regs</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Logic.html#6cd0f7b28b6092304087c7049437bb1a"><span class="id" title="notation">=</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#true"><span class="id" title="constructor">true</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">reflexivity</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Let us verify that the heap from above is well-formed with the heap type
+    that we have assigned it.
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Example</span> <a name="ex_heap_type_check_b"><span class="id" title="definition">ex_heap_type_check_b</span></a> :<br/>
+&nbsp;&nbsp;<a class="idref" href="TAL.TAL0.TypeSystem.html#heap_typed"><span class="id" title="definition">heap_typed</span></a> <a class="idref" href="TAL.TAL0.Examples.html#psi"><span class="id" title="definition">psi</span></a> <a class="idref" href="TAL.TAL0.Examples.html#gamma"><span class="id" title="definition">gamma</span></a> <a class="idref" href="TAL.TAL0.Examples.html#init_heap"><span class="id" title="definition">init_heap</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Logic.html#6cd0f7b28b6092304087c7049437bb1a"><span class="id" title="notation">=</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#true"><span class="id" title="constructor">true</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">unfold</span> <a class="idref" href="TAL.TAL0.TypeSystem.html#heap_typed"><span class="id" title="definition">heap_typed</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">reflexivity</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Let us verify that the machine state from above is well-formed with the heap
+    type and register file type that we have assigned it.
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Example</span> <a name="ex_mstate_type_check_b"><span class="id" title="definition">ex_mstate_type_check_b</span></a> :<br/>
+&nbsp;&nbsp;<a class="idref" href="TAL.TAL0.TypeSystem.html#mstate_ok_b"><span class="id" title="definition">mstate_ok_b</span></a> <a class="idref" href="TAL.TAL0.Examples.html#psi"><span class="id" title="definition">psi</span></a> <a class="idref" href="TAL.TAL0.Examples.html#gamma"><span class="id" title="definition">gamma</span></a> <a class="idref" href="TAL.TAL0.Examples.html#init_mstate"><span class="id" title="definition">init_mstate</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Logic.html#6cd0f7b28b6092304087c7049437bb1a"><span class="id" title="notation">=</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#true"><span class="id" title="constructor">true</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">reflexivity</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Check whether the register file type from above contains no free type
+    variables:
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Example</span> <a name="ex_ftv_null_b_gamma"><span class="id" title="definition">ex_ftv_null_b_gamma</span></a> :<br/>
+&nbsp;&nbsp;<a class="idref" href="TAL.TAL0.TypeSyntax.html#ftv_null_b"><span class="id" title="definition">ftv_null_b</span></a> <a class="idref" href="TAL.TAL0.TypeSyntax.html#1fb955639179a95be9f1a832807f86c8"><span class="id" title="notation">code</span></a><a class="idref" href="TAL.TAL0.TypeSyntax.html#1fb955639179a95be9f1a832807f86c8"><span class="id" title="notation">(</span></a><a class="idref" href="TAL.TAL0.Examples.html#gamma"><span class="id" title="definition">gamma</span></a><a class="idref" href="TAL.TAL0.TypeSyntax.html#1fb955639179a95be9f1a832807f86c8"><span class="id" title="notation">)</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Logic.html#6cd0f7b28b6092304087c7049437bb1a"><span class="id" title="notation">=</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#true"><span class="id" title="constructor">true</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">reflexivity</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Example</span> <a name="ex_ftv_null_gamma"><span class="id" title="definition">ex_ftv_null_gamma</span></a> :<br/>
+&nbsp;&nbsp;<a class="idref" href="TAL.TAL0.TypeSyntax.html#ftv_null"><span class="id" title="inductive">ftv_null</span></a> <a class="idref" href="TAL.TAL0.TypeSyntax.html#1fb955639179a95be9f1a832807f86c8"><span class="id" title="notation">code</span></a><a class="idref" href="TAL.TAL0.TypeSyntax.html#1fb955639179a95be9f1a832807f86c8"><span class="id" title="notation">(</span></a><a class="idref" href="TAL.TAL0.Examples.html#gamma"><span class="id" title="definition">gamma</span></a><a class="idref" href="TAL.TAL0.TypeSyntax.html#1fb955639179a95be9f1a832807f86c8"><span class="id" title="notation">)</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="TAL.TAL0.TypeSyntax.html#FTV_Code"><span class="id" title="constructor">FTV_Code</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">l</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">repeat</span> (<span class="id" title="tactic">destruct</span> <span class="id" title="var">l</span>; <span class="id" title="tactic">try</span> <span class="id" title="tactic">apply</span> <a class="idref" href="TAL.TAL0.TypeSyntax.html#FTV_Int"><span class="id" title="constructor">FTV_Int</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="TAL.TAL0.TypeSyntax.html#FTV_ForAll"><span class="id" title="constructor">FTV_ForAll</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="TAL.TAL0.TypeSyntax.html#FTV_Code"><span class="id" title="constructor">FTV_Code</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">l</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">repeat</span> (<span class="id" title="tactic">destruct</span> <span class="id" title="var">l</span>; <span class="id" title="tactic">try</span> <span class="id" title="tactic">apply</span> <a class="idref" href="TAL.TAL0.TypeSyntax.html#FTV_Int"><span class="id" title="constructor">FTV_Int</span></a>).<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://coq.inria.fr/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>

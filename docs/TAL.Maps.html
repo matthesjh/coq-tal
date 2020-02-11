@@ -1,0 +1,509 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<title>TAL.Maps</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library TAL.Maps</h1>
+
+<div class="code">
+</div>
+
+<div class="doc">
+Total and Partial Maps
+
+<div class="paragraph"> </div>
+
+    This code is based on the book <i>Software Foundations</i> by Benjamin C. Pierce.
+    See <span class="inlinecode"><span class="id" title="var">https</span>://<span class="id" title="var">softwarefoundations.cis.upenn.edu</span>/<span class="id" title="var">sf</span>-4.0/</span> for further details.
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Arith.Arith.html#"><span class="id" title="library">Coq.Arith.Arith</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Bool.Bool.html#"><span class="id" title="library">Coq.Bool.Bool</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Logic.FunctionalExtensionality.html#"><span class="id" title="library">Coq.Logic.FunctionalExtensionality</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a name="lab1"></a><h1 class="section">Identifiers</h1>
+
+</div>
+<div class="code">
+
+<br/>
+</div>
+
+<div class="doc">
+Definition of an identifier type for the keys of the maps:
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Inductive</span> <a name="id"><span class="id" title="inductive">id</span></a> : <span class="id" title="keyword">Type</span> :=<br/>
+&nbsp;&nbsp;| <a name="Id"><span class="id" title="constructor">Id</span></a> : <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#nat"><span class="id" title="inductive">nat</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="TAL.Maps.html#id"><span class="id" title="inductive">id</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Checks whether two identifiers are equal.
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="beq_id"><span class="id" title="definition">beq_id</span></a> (<span class="id" title="var">i</span> : <a class="idref" href="TAL.Maps.html#id"><span class="id" title="inductive">id</span></a>) (<span class="id" title="var">j</span> : <a class="idref" href="TAL.Maps.html#id"><span class="id" title="inductive">id</span></a>) : <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#bool"><span class="id" title="inductive">bool</span></a> :=<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">match</span> <a class="idref" href="TAL.Maps.html#i"><span class="id" title="variable">i</span></a>, <a class="idref" href="TAL.Maps.html#j"><span class="id" title="variable">j</span></a> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="TAL.Maps.html#Id"><span class="id" title="constructor">Id</span></a> <span class="id" title="var">n</span>, <a class="idref" href="TAL.Maps.html#Id"><span class="id" title="constructor">Id</span></a> <span class="id" title="var">m</span> ⇒ <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Arith.EqNat.html#beq_nat"><span class="id" title="abbreviation">beq_nat</span></a> <span class="id" title="var">n</span> <span class="id" title="var">m</span><br/>
+&nbsp;&nbsp;<span class="id" title="keyword">end</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+We prove some useful theorems about <span class="inlinecode"><a class="idref" href="TAL.Maps.html#beq_id"><span class="id" title="definition">beq_id</span></a></span>:
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <a name="beq_id_refl"><span class="id" title="lemma">beq_id_refl</span></a> : <span class="id" title="keyword">∀</span> <span class="id" title="var">i</span> : <a class="idref" href="TAL.Maps.html#id"><span class="id" title="inductive">id</span></a>,<br/>
+&nbsp;&nbsp;<a class="idref" href="TAL.Maps.html#beq_id"><span class="id" title="definition">beq_id</span></a> <a class="idref" href="TAL.Maps.html#i"><span class="id" title="variable">i</span></a> <a class="idref" href="TAL.Maps.html#i"><span class="id" title="variable">i</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Logic.html#6cd0f7b28b6092304087c7049437bb1a"><span class="id" title="notation">=</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#true"><span class="id" title="constructor">true</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> [<span class="id" title="var">n</span>].<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> &lt;- <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Arith.EqNat.html#beq_nat_refl"><span class="id" title="lemma">beq_nat_refl</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">reflexivity</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <a name="beq_id_true_iff"><span class="id" title="lemma">beq_id_true_iff</span></a> : <span class="id" title="keyword">∀</span> <span class="id" title="var">i</span> <span class="id" title="var">j</span> : <a class="idref" href="TAL.Maps.html#id"><span class="id" title="inductive">id</span></a>,<br/>
+&nbsp;&nbsp;<a class="idref" href="TAL.Maps.html#beq_id"><span class="id" title="definition">beq_id</span></a> <a class="idref" href="TAL.Maps.html#i"><span class="id" title="variable">i</span></a> <a class="idref" href="TAL.Maps.html#j"><span class="id" title="variable">j</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Logic.html#6cd0f7b28b6092304087c7049437bb1a"><span class="id" title="notation">=</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#true"><span class="id" title="constructor">true</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Logic.html#4bfb4f2d0721ba668e3a802ab1b745a1"><span class="id" title="notation">↔</span></a> <a class="idref" href="TAL.Maps.html#i"><span class="id" title="variable">i</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Logic.html#6cd0f7b28b6092304087c7049437bb1a"><span class="id" title="notation">=</span></a> <a class="idref" href="TAL.Maps.html#j"><span class="id" title="variable">j</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> [<span class="id" title="var">n</span>] [<span class="id" title="var">m</span>].<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">unfold</span> <a class="idref" href="TAL.Maps.html#beq_id"><span class="id" title="definition">beq_id</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Arith.EqNat.html#beq_nat_true_iff"><span class="id" title="abbreviation">beq_nat_true_iff</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">split</span>.<br/>
+&nbsp;&nbsp;- <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <span class="id" title="var">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">reflexivity</span>.<br/>
+&nbsp;&nbsp;- <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">inversion</span> <span class="id" title="var">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">reflexivity</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <a name="beq_id_false_iff"><span class="id" title="lemma">beq_id_false_iff</span></a> : <span class="id" title="keyword">∀</span> <span class="id" title="var">i</span> <span class="id" title="var">j</span> : <a class="idref" href="TAL.Maps.html#id"><span class="id" title="inductive">id</span></a>,<br/>
+&nbsp;&nbsp;<a class="idref" href="TAL.Maps.html#beq_id"><span class="id" title="definition">beq_id</span></a> <a class="idref" href="TAL.Maps.html#i"><span class="id" title="variable">i</span></a> <a class="idref" href="TAL.Maps.html#j"><span class="id" title="variable">j</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Logic.html#6cd0f7b28b6092304087c7049437bb1a"><span class="id" title="notation">=</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#false"><span class="id" title="constructor">false</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Logic.html#4bfb4f2d0721ba668e3a802ab1b745a1"><span class="id" title="notation">↔</span></a> <a class="idref" href="TAL.Maps.html#i"><span class="id" title="variable">i</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Logic.html#a0a5068f83a704fcfbda8cd473a6cfea"><span class="id" title="notation">≠</span></a> <a class="idref" href="TAL.Maps.html#j"><span class="id" title="variable">j</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">i</span> <span class="id" title="var">j</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> &lt;- <a class="idref" href="TAL.Maps.html#beq_id_true_iff"><span class="id" title="lemma">beq_id_true_iff</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Bool.Bool.html#not_true_iff_false"><span class="id" title="lemma">not_true_iff_false</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">reflexivity</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <a name="false_beq_id"><span class="id" title="lemma">false_beq_id</span></a> : <span class="id" title="keyword">∀</span> <span class="id" title="var">i</span> <span class="id" title="var">j</span> : <a class="idref" href="TAL.Maps.html#id"><span class="id" title="inductive">id</span></a>,<br/>
+&nbsp;&nbsp;<a class="idref" href="TAL.Maps.html#i"><span class="id" title="variable">i</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Logic.html#a0a5068f83a704fcfbda8cd473a6cfea"><span class="id" title="notation">≠</span></a> <a class="idref" href="TAL.Maps.html#j"><span class="id" title="variable">j</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="TAL.Maps.html#beq_id"><span class="id" title="definition">beq_id</span></a> <a class="idref" href="TAL.Maps.html#i"><span class="id" title="variable">i</span></a> <a class="idref" href="TAL.Maps.html#j"><span class="id" title="variable">j</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Logic.html#6cd0f7b28b6092304087c7049437bb1a"><span class="id" title="notation">=</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#false"><span class="id" title="constructor">false</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">i</span> <span class="id" title="var">j</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <a class="idref" href="TAL.Maps.html#beq_id_false_iff"><span class="id" title="lemma">beq_id_false_iff</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">H</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="var">H</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+A fundamental reflection lemma relating the equality proposition on <span class="inlinecode"><a class="idref" href="TAL.Maps.html#id"><span class="id" title="inductive">id</span></a></span>s
+    with the boolean function <span class="inlinecode"><a class="idref" href="TAL.Maps.html#beq_id"><span class="id" title="definition">beq_id</span></a></span>:
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="beq_idP"><span class="id" title="lemma">beq_idP</span></a> : <span class="id" title="keyword">∀</span> <span class="id" title="var">i</span> <span class="id" title="var">j</span> : <a class="idref" href="TAL.Maps.html#id"><span class="id" title="inductive">id</span></a>,<br/>
+&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Bool.Bool.html#reflect"><span class="id" title="inductive">reflect</span></a> (<a class="idref" href="TAL.Maps.html#i"><span class="id" title="variable">i</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Logic.html#6cd0f7b28b6092304087c7049437bb1a"><span class="id" title="notation">=</span></a> <a class="idref" href="TAL.Maps.html#j"><span class="id" title="variable">j</span></a>) (<a class="idref" href="TAL.Maps.html#beq_id"><span class="id" title="definition">beq_id</span></a> <a class="idref" href="TAL.Maps.html#i"><span class="id" title="variable">i</span></a> <a class="idref" href="TAL.Maps.html#j"><span class="id" title="variable">j</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+</div>
+
+<div class="doc">
+THIS PROOF IS PART OF AN EXERCISE FROM THE BOOK.
+</div>
+<div class="code">
+<span class="id" title="var">Admitted</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a name="lab2"></a><h1 class="section">Total Maps</h1>
+
+</div>
+<div class="code">
+
+<br/>
+</div>
+
+<div class="doc">
+Definition of a total map as a function that returns a default value when we
+    look up a key that is not present in the map.
+    Intuitively, a total map over a value type <span class="inlinecode"><a class="idref" href="TAL.Maps.html#A"><span class="id" title="variable">A</span></a></span> is just a function that can
+    be used to look up <span class="inlinecode"><a class="idref" href="TAL.Maps.html#id"><span class="id" title="inductive">id</span></a></span>s, yielding <span class="inlinecode"><a class="idref" href="TAL.Maps.html#A"><span class="id" title="variable">A</span></a></span>s.
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="total_map"><span class="id" title="definition">total_map</span></a> (<span class="id" title="var">A</span> : <span class="id" title="keyword">Type</span>) := <a class="idref" href="TAL.Maps.html#id"><span class="id" title="inductive">id</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="TAL.Maps.html#A"><span class="id" title="variable">A</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+The empty total map always returns the given default value when applied to
+    any key.
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="t_empty"><span class="id" title="definition">t_empty</span></a> {<span class="id" title="var">A</span> : <span class="id" title="keyword">Type</span>} (<span class="id" title="var">v</span> : <a class="idref" href="TAL.Maps.html#A"><span class="id" title="variable">A</span></a>) : <a class="idref" href="TAL.Maps.html#total_map"><span class="id" title="definition">total_map</span></a> <a class="idref" href="TAL.Maps.html#A"><span class="id" title="variable">A</span></a> := <span class="id" title="keyword">fun</span> <span class="id" title="var">_</span> ⇒ <a class="idref" href="TAL.Maps.html#v"><span class="id" title="variable">v</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Updates the value associated with the given key.
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="t_update"><span class="id" title="definition">t_update</span></a> {<span class="id" title="var">A</span> : <span class="id" title="keyword">Type</span>} (<span class="id" title="var">m</span> : <a class="idref" href="TAL.Maps.html#total_map"><span class="id" title="definition">total_map</span></a> <a class="idref" href="TAL.Maps.html#A"><span class="id" title="variable">A</span></a>) (<span class="id" title="var">i</span> : <a class="idref" href="TAL.Maps.html#id"><span class="id" title="inductive">id</span></a>) (<span class="id" title="var">v</span> : <a class="idref" href="TAL.Maps.html#A"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="TAL.Maps.html#total_map"><span class="id" title="definition">total_map</span></a> <a class="idref" href="TAL.Maps.html#A"><span class="id" title="variable">A</span></a> := <span class="id" title="keyword">fun</span> <span class="id" title="var">j</span> ⇒ <span class="id" title="keyword">if</span> <a class="idref" href="TAL.Maps.html#beq_id"><span class="id" title="definition">beq_id</span></a> <a class="idref" href="TAL.Maps.html#i"><span class="id" title="variable">i</span></a> <a class="idref" href="TAL.Maps.html#j"><span class="id" title="variable">j</span></a> <span class="id" title="keyword">then</span> <a class="idref" href="TAL.Maps.html#v"><span class="id" title="variable">v</span></a> <span class="id" title="keyword">else</span> <a class="idref" href="TAL.Maps.html#m"><span class="id" title="variable">m</span></a> <a class="idref" href="TAL.Maps.html#j"><span class="id" title="variable">j</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+An example total map with values of type <span class="inlinecode"><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#bool"><span class="id" title="inductive">bool</span></a></span>:
+<pre>
+M(3) = true
+M(i) = false   forall i ≠ 3
+</pre>
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="ex_bool_map"><span class="id" title="definition">ex_bool_map</span></a> : <a class="idref" href="TAL.Maps.html#total_map"><span class="id" title="definition">total_map</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#bool"><span class="id" title="inductive">bool</span></a> :=<br/>
+&nbsp;&nbsp;<a class="idref" href="TAL.Maps.html#t_update"><span class="id" title="definition">t_update</span></a> (<a class="idref" href="TAL.Maps.html#t_update"><span class="id" title="definition">t_update</span></a> (<a class="idref" href="TAL.Maps.html#t_empty"><span class="id" title="definition">t_empty</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#false"><span class="id" title="constructor">false</span></a>) (<a class="idref" href="TAL.Maps.html#Id"><span class="id" title="constructor">Id</span></a> 1) <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#false"><span class="id" title="constructor">false</span></a>) (<a class="idref" href="TAL.Maps.html#Id"><span class="id" title="constructor">Id</span></a> 3) <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#true"><span class="id" title="constructor">true</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Example</span> <a name="ex_update_0"><span class="id" title="definition">ex_update_0</span></a> : <a class="idref" href="TAL.Maps.html#ex_bool_map"><span class="id" title="definition">ex_bool_map</span></a> (<a class="idref" href="TAL.Maps.html#Id"><span class="id" title="constructor">Id</span></a> 0) <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Logic.html#6cd0f7b28b6092304087c7049437bb1a"><span class="id" title="notation">=</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#false"><span class="id" title="constructor">false</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">reflexivity</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Example</span> <a name="ex_update_1"><span class="id" title="definition">ex_update_1</span></a> : <a class="idref" href="TAL.Maps.html#ex_bool_map"><span class="id" title="definition">ex_bool_map</span></a> (<a class="idref" href="TAL.Maps.html#Id"><span class="id" title="constructor">Id</span></a> 1) <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Logic.html#6cd0f7b28b6092304087c7049437bb1a"><span class="id" title="notation">=</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#false"><span class="id" title="constructor">false</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">reflexivity</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Example</span> <a name="ex_update_2"><span class="id" title="definition">ex_update_2</span></a> : <a class="idref" href="TAL.Maps.html#ex_bool_map"><span class="id" title="definition">ex_bool_map</span></a> (<a class="idref" href="TAL.Maps.html#Id"><span class="id" title="constructor">Id</span></a> 2) <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Logic.html#6cd0f7b28b6092304087c7049437bb1a"><span class="id" title="notation">=</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#false"><span class="id" title="constructor">false</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">reflexivity</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Example</span> <a name="ex_update_3"><span class="id" title="definition">ex_update_3</span></a> : <a class="idref" href="TAL.Maps.html#ex_bool_map"><span class="id" title="definition">ex_bool_map</span></a> (<a class="idref" href="TAL.Maps.html#Id"><span class="id" title="constructor">Id</span></a> 3) <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Logic.html#6cd0f7b28b6092304087c7049437bb1a"><span class="id" title="notation">=</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#true"><span class="id" title="constructor">true</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">reflexivity</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+We prove some useful lemmas and theorems about total maps:
+<div class="paragraph"> </div>
+
+ The empty total map returns its default value for all keys.
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="t_apply_empty"><span class="id" title="lemma">t_apply_empty</span></a> : <span class="id" title="keyword">∀</span> (<span class="id" title="var">A</span> : <span class="id" title="keyword">Type</span>) (<span class="id" title="var">i</span> : <a class="idref" href="TAL.Maps.html#id"><span class="id" title="inductive">id</span></a>) (<span class="id" title="var">v</span> : <a class="idref" href="TAL.Maps.html#A"><span class="id" title="variable">A</span></a>),<br/>
+&nbsp;&nbsp;(<a class="idref" href="TAL.Maps.html#t_empty"><span class="id" title="definition">t_empty</span></a> <a class="idref" href="TAL.Maps.html#v"><span class="id" title="variable">v</span></a>) <a class="idref" href="TAL.Maps.html#i"><span class="id" title="variable">i</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Logic.html#6cd0f7b28b6092304087c7049437bb1a"><span class="id" title="notation">=</span></a> <a class="idref" href="TAL.Maps.html#v"><span class="id" title="variable">v</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+</div>
+
+<div class="doc">
+THIS PROOF IS PART OF AN EXERCISE FROM THE BOOK.
+</div>
+<div class="code">
+<span class="id" title="var">Admitted</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+If we update a total map <span class="inlinecode"><a class="idref" href="TAL.Maps.html#m"><span class="id" title="variable">m</span></a></span> at a key <span class="inlinecode"><a class="idref" href="TAL.Maps.html#i"><span class="id" title="variable">i</span></a></span> with a new value <span class="inlinecode"><a class="idref" href="TAL.Maps.html#v"><span class="id" title="variable">v</span></a></span> and then look
+    up <span class="inlinecode"><a class="idref" href="TAL.Maps.html#i"><span class="id" title="variable">i</span></a></span> in the total map resulting from the <span class="inlinecode"><span class="id" title="var">update</span></span>, we get back <span class="inlinecode"><a class="idref" href="TAL.Maps.html#v"><span class="id" title="variable">v</span></a></span>.
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="t_update_eq"><span class="id" title="lemma">t_update_eq</span></a> : <span class="id" title="keyword">∀</span> (<span class="id" title="var">A</span> : <span class="id" title="keyword">Type</span>) (<span class="id" title="var">m</span> : <a class="idref" href="TAL.Maps.html#total_map"><span class="id" title="definition">total_map</span></a> <a class="idref" href="TAL.Maps.html#A"><span class="id" title="variable">A</span></a>) (<span class="id" title="var">i</span> : <a class="idref" href="TAL.Maps.html#id"><span class="id" title="inductive">id</span></a>) (<span class="id" title="var">v</span> : <a class="idref" href="TAL.Maps.html#A"><span class="id" title="variable">A</span></a>),<br/>
+&nbsp;&nbsp;(<a class="idref" href="TAL.Maps.html#t_update"><span class="id" title="definition">t_update</span></a> <a class="idref" href="TAL.Maps.html#m"><span class="id" title="variable">m</span></a> <a class="idref" href="TAL.Maps.html#i"><span class="id" title="variable">i</span></a> <a class="idref" href="TAL.Maps.html#v"><span class="id" title="variable">v</span></a>) <a class="idref" href="TAL.Maps.html#i"><span class="id" title="variable">i</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Logic.html#6cd0f7b28b6092304087c7049437bb1a"><span class="id" title="notation">=</span></a> <a class="idref" href="TAL.Maps.html#v"><span class="id" title="variable">v</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+</div>
+
+<div class="doc">
+THIS PROOF IS PART OF AN EXERCISE FROM THE BOOK.
+</div>
+<div class="code">
+<span class="id" title="var">Admitted</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+If we update a total map <span class="inlinecode"><a class="idref" href="TAL.Maps.html#m"><span class="id" title="variable">m</span></a></span> at a key <span class="inlinecode"><a class="idref" href="TAL.Maps.html#i"><span class="id" title="variable">i</span></a></span> and then look up a different key
+    <span class="inlinecode"><a class="idref" href="TAL.Maps.html#j"><span class="id" title="variable">j</span></a></span> in the resulting total map, we get the same result that <span class="inlinecode"><a class="idref" href="TAL.Maps.html#m"><span class="id" title="variable">m</span></a></span> would have
+    given.
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <a name="t_update_neq"><span class="id" title="lemma">t_update_neq</span></a> : <span class="id" title="keyword">∀</span> (<span class="id" title="var">A</span> : <span class="id" title="keyword">Type</span>) (<span class="id" title="var">m</span> : <a class="idref" href="TAL.Maps.html#total_map"><span class="id" title="definition">total_map</span></a> <a class="idref" href="TAL.Maps.html#A"><span class="id" title="variable">A</span></a>) (<span class="id" title="var">i</span> <span class="id" title="var">j</span> : <a class="idref" href="TAL.Maps.html#id"><span class="id" title="inductive">id</span></a>) (<span class="id" title="var">v</span> : <a class="idref" href="TAL.Maps.html#A"><span class="id" title="variable">A</span></a>),<br/>
+&nbsp;&nbsp;<a class="idref" href="TAL.Maps.html#i"><span class="id" title="variable">i</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Logic.html#a0a5068f83a704fcfbda8cd473a6cfea"><span class="id" title="notation">≠</span></a> <a class="idref" href="TAL.Maps.html#j"><span class="id" title="variable">j</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> (<a class="idref" href="TAL.Maps.html#t_update"><span class="id" title="definition">t_update</span></a> <a class="idref" href="TAL.Maps.html#m"><span class="id" title="variable">m</span></a> <a class="idref" href="TAL.Maps.html#i"><span class="id" title="variable">i</span></a> <a class="idref" href="TAL.Maps.html#v"><span class="id" title="variable">v</span></a>) <a class="idref" href="TAL.Maps.html#j"><span class="id" title="variable">j</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Logic.html#6cd0f7b28b6092304087c7049437bb1a"><span class="id" title="notation">=</span></a> <a class="idref" href="TAL.Maps.html#m"><span class="id" title="variable">m</span></a> <a class="idref" href="TAL.Maps.html#j"><span class="id" title="variable">j</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+</div>
+
+<div class="doc">
+THIS PROOF IS PART OF AN EXERCISE FROM THE BOOK.
+</div>
+<div class="code">
+<span class="id" title="var">Admitted</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+If we update a total map <span class="inlinecode"><a class="idref" href="TAL.Maps.html#m"><span class="id" title="variable">m</span></a></span> at a key <span class="inlinecode"><a class="idref" href="TAL.Maps.html#i"><span class="id" title="variable">i</span></a></span> with a value <span class="inlinecode"><a class="idref" href="TAL.Maps.html#v1"><span class="id" title="variable">v1</span></a></span> and then update
+    again with the same key <span class="inlinecode"><a class="idref" href="TAL.Maps.html#i"><span class="id" title="variable">i</span></a></span> and another value <span class="inlinecode"><a class="idref" href="TAL.Maps.html#v2"><span class="id" title="variable">v2</span></a></span>, the resulting total map
+    behaves the same (gives the same result when applied to any key) as the
+    simpler total map obtained by performing just the second update on <span class="inlinecode"><a class="idref" href="TAL.Maps.html#m"><span class="id" title="variable">m</span></a></span>.
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="t_update_shadow"><span class="id" title="lemma">t_update_shadow</span></a> : <span class="id" title="keyword">∀</span> (<span class="id" title="var">A</span> : <span class="id" title="keyword">Type</span>) (<span class="id" title="var">m</span> : <a class="idref" href="TAL.Maps.html#total_map"><span class="id" title="definition">total_map</span></a> <a class="idref" href="TAL.Maps.html#A"><span class="id" title="variable">A</span></a>) (<span class="id" title="var">i</span> : <a class="idref" href="TAL.Maps.html#id"><span class="id" title="inductive">id</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">v1</span> <span class="id" title="var">v2</span> : <a class="idref" href="TAL.Maps.html#A"><span class="id" title="variable">A</span></a>),<br/>
+&nbsp;&nbsp;<a class="idref" href="TAL.Maps.html#t_update"><span class="id" title="definition">t_update</span></a> (<a class="idref" href="TAL.Maps.html#t_update"><span class="id" title="definition">t_update</span></a> <a class="idref" href="TAL.Maps.html#m"><span class="id" title="variable">m</span></a> <a class="idref" href="TAL.Maps.html#i"><span class="id" title="variable">i</span></a> <a class="idref" href="TAL.Maps.html#v1"><span class="id" title="variable">v1</span></a>) <a class="idref" href="TAL.Maps.html#i"><span class="id" title="variable">i</span></a> <a class="idref" href="TAL.Maps.html#v2"><span class="id" title="variable">v2</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Logic.html#6cd0f7b28b6092304087c7049437bb1a"><span class="id" title="notation">=</span></a> <a class="idref" href="TAL.Maps.html#t_update"><span class="id" title="definition">t_update</span></a> <a class="idref" href="TAL.Maps.html#m"><span class="id" title="variable">m</span></a> <a class="idref" href="TAL.Maps.html#i"><span class="id" title="variable">i</span></a> <a class="idref" href="TAL.Maps.html#v2"><span class="id" title="variable">v2</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+</div>
+
+<div class="doc">
+THIS PROOF IS PART OF AN EXERCISE FROM THE BOOK.
+</div>
+<div class="code">
+<span class="id" title="var">Admitted</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+If we update a total map to assign key <span class="inlinecode"><a class="idref" href="TAL.Maps.html#i"><span class="id" title="variable">i</span></a></span> the same value as it already has
+    in <span class="inlinecode"><a class="idref" href="TAL.Maps.html#m"><span class="id" title="variable">m</span></a></span>, then the result is equal to <span class="inlinecode"><a class="idref" href="TAL.Maps.html#m"><span class="id" title="variable">m</span></a></span>.
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <a name="t_update_same"><span class="id" title="lemma">t_update_same</span></a> : <span class="id" title="keyword">∀</span> (<span class="id" title="var">A</span> : <span class="id" title="keyword">Type</span>) (<span class="id" title="var">m</span> : <a class="idref" href="TAL.Maps.html#total_map"><span class="id" title="definition">total_map</span></a> <a class="idref" href="TAL.Maps.html#A"><span class="id" title="variable">A</span></a>) (<span class="id" title="var">i</span> : <a class="idref" href="TAL.Maps.html#id"><span class="id" title="inductive">id</span></a>),<br/>
+&nbsp;&nbsp;<a class="idref" href="TAL.Maps.html#t_update"><span class="id" title="definition">t_update</span></a> <a class="idref" href="TAL.Maps.html#m"><span class="id" title="variable">m</span></a> <a class="idref" href="TAL.Maps.html#i"><span class="id" title="variable">i</span></a> (<a class="idref" href="TAL.Maps.html#m"><span class="id" title="variable">m</span></a> <a class="idref" href="TAL.Maps.html#i"><span class="id" title="variable">i</span></a>) <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Logic.html#6cd0f7b28b6092304087c7049437bb1a"><span class="id" title="notation">=</span></a> <a class="idref" href="TAL.Maps.html#m"><span class="id" title="variable">m</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+</div>
+
+<div class="doc">
+THIS PROOF IS PART OF AN EXERCISE FROM THE BOOK.
+</div>
+<div class="code">
+<span class="id" title="var">Admitted</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+If we update a total map at two distinct keys, it doesn't matter in which
+    order we do the updates.
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <a name="t_update_permute"><span class="id" title="lemma">t_update_permute</span></a> : <span class="id" title="keyword">∀</span> (<span class="id" title="var">A</span> : <span class="id" title="keyword">Type</span>) (<span class="id" title="var">m</span> : <a class="idref" href="TAL.Maps.html#total_map"><span class="id" title="definition">total_map</span></a> <a class="idref" href="TAL.Maps.html#A"><span class="id" title="variable">A</span></a>) (<span class="id" title="var">i</span> <span class="id" title="var">j</span> : <a class="idref" href="TAL.Maps.html#id"><span class="id" title="inductive">id</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">v1</span> <span class="id" title="var">v2</span> : <a class="idref" href="TAL.Maps.html#A"><span class="id" title="variable">A</span></a>),<br/>
+&nbsp;&nbsp;<a class="idref" href="TAL.Maps.html#j"><span class="id" title="variable">j</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Logic.html#a0a5068f83a704fcfbda8cd473a6cfea"><span class="id" title="notation">≠</span></a> <a class="idref" href="TAL.Maps.html#i"><span class="id" title="variable">i</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="TAL.Maps.html#t_update"><span class="id" title="definition">t_update</span></a> (<a class="idref" href="TAL.Maps.html#t_update"><span class="id" title="definition">t_update</span></a> <a class="idref" href="TAL.Maps.html#m"><span class="id" title="variable">m</span></a> <a class="idref" href="TAL.Maps.html#j"><span class="id" title="variable">j</span></a> <a class="idref" href="TAL.Maps.html#v2"><span class="id" title="variable">v2</span></a>) <a class="idref" href="TAL.Maps.html#i"><span class="id" title="variable">i</span></a> <a class="idref" href="TAL.Maps.html#v1"><span class="id" title="variable">v1</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Logic.html#6cd0f7b28b6092304087c7049437bb1a"><span class="id" title="notation">=</span></a> <a class="idref" href="TAL.Maps.html#t_update"><span class="id" title="definition">t_update</span></a> (<a class="idref" href="TAL.Maps.html#t_update"><span class="id" title="definition">t_update</span></a> <a class="idref" href="TAL.Maps.html#m"><span class="id" title="variable">m</span></a> <a class="idref" href="TAL.Maps.html#i"><span class="id" title="variable">i</span></a> <a class="idref" href="TAL.Maps.html#v1"><span class="id" title="variable">v1</span></a>) <a class="idref" href="TAL.Maps.html#j"><span class="id" title="variable">j</span></a> <a class="idref" href="TAL.Maps.html#v2"><span class="id" title="variable">v2</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+</div>
+
+<div class="doc">
+THIS PROOF IS PART OF AN EXERCISE FROM THE BOOK.
+</div>
+<div class="code">
+<span class="id" title="var">Admitted</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a name="lab3"></a><h1 class="section">Partial Maps</h1>
+
+</div>
+<div class="code">
+
+<br/>
+</div>
+
+<div class="doc">
+A partial map with values of type <span class="inlinecode"><a class="idref" href="TAL.Maps.html#A"><span class="id" title="variable">A</span></a></span> is simply a total map with values of
+    type <span class="inlinecode"><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#option"><span class="id" title="inductive">option</span></a></span> <span class="inlinecode"><a class="idref" href="TAL.Maps.html#A"><span class="id" title="variable">A</span></a></span> and default value <span class="inlinecode"><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#None"><span class="id" title="constructor">None</span></a></span>.
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="partial_map"><span class="id" title="definition">partial_map</span></a> (<span class="id" title="var">A</span> : <span class="id" title="keyword">Type</span>) := <a class="idref" href="TAL.Maps.html#total_map"><span class="id" title="definition">total_map</span></a> (<a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#option"><span class="id" title="inductive">option</span></a> <a class="idref" href="TAL.Maps.html#A"><span class="id" title="variable">A</span></a>).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+The empty partial map always returns <span class="inlinecode"><a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#None"><span class="id" title="constructor">None</span></a></span> when applied to any key.
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="p_empty"><span class="id" title="definition">p_empty</span></a> {<span class="id" title="var">A</span> : <span class="id" title="keyword">Type</span>} : <a class="idref" href="TAL.Maps.html#partial_map"><span class="id" title="definition">partial_map</span></a> <a class="idref" href="TAL.Maps.html#A"><span class="id" title="variable">A</span></a> := <a class="idref" href="TAL.Maps.html#t_empty"><span class="id" title="definition">t_empty</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#None"><span class="id" title="constructor">None</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Updates the value associated with the given key.
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="p_update"><span class="id" title="definition">p_update</span></a> {<span class="id" title="var">A</span> : <span class="id" title="keyword">Type</span>} (<span class="id" title="var">m</span> : <a class="idref" href="TAL.Maps.html#partial_map"><span class="id" title="definition">partial_map</span></a> <a class="idref" href="TAL.Maps.html#A"><span class="id" title="variable">A</span></a>) (<span class="id" title="var">i</span> : <a class="idref" href="TAL.Maps.html#id"><span class="id" title="inductive">id</span></a>) (<span class="id" title="var">v</span> : <a class="idref" href="TAL.Maps.html#A"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="TAL.Maps.html#partial_map"><span class="id" title="definition">partial_map</span></a> <a class="idref" href="TAL.Maps.html#A"><span class="id" title="variable">A</span></a> := <a class="idref" href="TAL.Maps.html#t_update"><span class="id" title="definition">t_update</span></a> <a class="idref" href="TAL.Maps.html#m"><span class="id" title="variable">m</span></a> <a class="idref" href="TAL.Maps.html#i"><span class="id" title="variable">i</span></a> (<a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#Some"><span class="id" title="constructor">Some</span></a> <a class="idref" href="TAL.Maps.html#v"><span class="id" title="variable">v</span></a>).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+We can now lift all of the basic lemmas and theorems about total maps to
+    partial maps:
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="p_apply_empty"><span class="id" title="lemma">p_apply_empty</span></a> : <span class="id" title="keyword">∀</span> (<span class="id" title="var">A</span> : <span class="id" title="keyword">Type</span>) (<span class="id" title="var">i</span> : <a class="idref" href="TAL.Maps.html#id"><span class="id" title="inductive">id</span></a>),<br/>
+&nbsp;&nbsp;@<a class="idref" href="TAL.Maps.html#p_empty"><span class="id" title="definition">p_empty</span></a> <a class="idref" href="TAL.Maps.html#A"><span class="id" title="variable">A</span></a> <a class="idref" href="TAL.Maps.html#i"><span class="id" title="variable">i</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Logic.html#6cd0f7b28b6092304087c7049437bb1a"><span class="id" title="notation">=</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#None"><span class="id" title="constructor">None</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">A</span> <span class="id" title="var">i</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">unfold</span> <a class="idref" href="TAL.Maps.html#p_empty"><span class="id" title="definition">p_empty</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <a class="idref" href="TAL.Maps.html#t_apply_empty"><span class="id" title="axiom">t_apply_empty</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">reflexivity</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="p_update_eq"><span class="id" title="lemma">p_update_eq</span></a> : <span class="id" title="keyword">∀</span> (<span class="id" title="var">A</span> : <span class="id" title="keyword">Type</span>) (<span class="id" title="var">m</span> : <a class="idref" href="TAL.Maps.html#partial_map"><span class="id" title="definition">partial_map</span></a> <a class="idref" href="TAL.Maps.html#A"><span class="id" title="variable">A</span></a>) (<span class="id" title="var">i</span> : <a class="idref" href="TAL.Maps.html#id"><span class="id" title="inductive">id</span></a>) (<span class="id" title="var">v</span> : <a class="idref" href="TAL.Maps.html#A"><span class="id" title="variable">A</span></a>),<br/>
+&nbsp;&nbsp;(<a class="idref" href="TAL.Maps.html#p_update"><span class="id" title="definition">p_update</span></a> <a class="idref" href="TAL.Maps.html#m"><span class="id" title="variable">m</span></a> <a class="idref" href="TAL.Maps.html#i"><span class="id" title="variable">i</span></a> <a class="idref" href="TAL.Maps.html#v"><span class="id" title="variable">v</span></a>) <a class="idref" href="TAL.Maps.html#i"><span class="id" title="variable">i</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Logic.html#6cd0f7b28b6092304087c7049437bb1a"><span class="id" title="notation">=</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#Some"><span class="id" title="constructor">Some</span></a> <a class="idref" href="TAL.Maps.html#v"><span class="id" title="variable">v</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">A</span> <span class="id" title="var">m</span> <span class="id" title="var">i</span> <span class="id" title="var">v</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">unfold</span> <a class="idref" href="TAL.Maps.html#p_update"><span class="id" title="definition">p_update</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <a class="idref" href="TAL.Maps.html#t_update_eq"><span class="id" title="axiom">t_update_eq</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">reflexivity</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <a name="p_update_neq"><span class="id" title="lemma">p_update_neq</span></a> : <span class="id" title="keyword">∀</span> (<span class="id" title="var">A</span> : <span class="id" title="keyword">Type</span>) (<span class="id" title="var">m</span> : <a class="idref" href="TAL.Maps.html#partial_map"><span class="id" title="definition">partial_map</span></a> <a class="idref" href="TAL.Maps.html#A"><span class="id" title="variable">A</span></a>) (<span class="id" title="var">i</span> <span class="id" title="var">j</span> : <a class="idref" href="TAL.Maps.html#id"><span class="id" title="inductive">id</span></a>) (<span class="id" title="var">v</span> : <a class="idref" href="TAL.Maps.html#A"><span class="id" title="variable">A</span></a>),<br/>
+&nbsp;&nbsp;<a class="idref" href="TAL.Maps.html#j"><span class="id" title="variable">j</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Logic.html#a0a5068f83a704fcfbda8cd473a6cfea"><span class="id" title="notation">≠</span></a> <a class="idref" href="TAL.Maps.html#i"><span class="id" title="variable">i</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> (<a class="idref" href="TAL.Maps.html#p_update"><span class="id" title="definition">p_update</span></a> <a class="idref" href="TAL.Maps.html#m"><span class="id" title="variable">m</span></a> <a class="idref" href="TAL.Maps.html#j"><span class="id" title="variable">j</span></a> <a class="idref" href="TAL.Maps.html#v"><span class="id" title="variable">v</span></a>) <a class="idref" href="TAL.Maps.html#i"><span class="id" title="variable">i</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Logic.html#6cd0f7b28b6092304087c7049437bb1a"><span class="id" title="notation">=</span></a> <a class="idref" href="TAL.Maps.html#m"><span class="id" title="variable">m</span></a> <a class="idref" href="TAL.Maps.html#i"><span class="id" title="variable">i</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">A</span> <span class="id" title="var">m</span> <span class="id" title="var">i</span> <span class="id" title="var">j</span> <span class="id" title="var">v</span> <span class="id" title="var">H</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">unfold</span> <a class="idref" href="TAL.Maps.html#p_update"><span class="id" title="definition">p_update</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <a class="idref" href="TAL.Maps.html#t_update_neq"><span class="id" title="axiom">t_update_neq</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">reflexivity</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <span class="id" title="var">H</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="p_update_shadow"><span class="id" title="lemma">p_update_shadow</span></a> : <span class="id" title="keyword">∀</span> (<span class="id" title="var">A</span> : <span class="id" title="keyword">Type</span>) (<span class="id" title="var">m</span> : <a class="idref" href="TAL.Maps.html#partial_map"><span class="id" title="definition">partial_map</span></a> <a class="idref" href="TAL.Maps.html#A"><span class="id" title="variable">A</span></a>) (<span class="id" title="var">i</span> : <a class="idref" href="TAL.Maps.html#id"><span class="id" title="inductive">id</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">v1</span> <span class="id" title="var">v2</span> : <a class="idref" href="TAL.Maps.html#A"><span class="id" title="variable">A</span></a>),<br/>
+&nbsp;&nbsp;<a class="idref" href="TAL.Maps.html#p_update"><span class="id" title="definition">p_update</span></a> (<a class="idref" href="TAL.Maps.html#p_update"><span class="id" title="definition">p_update</span></a> <a class="idref" href="TAL.Maps.html#m"><span class="id" title="variable">m</span></a> <a class="idref" href="TAL.Maps.html#i"><span class="id" title="variable">i</span></a> <a class="idref" href="TAL.Maps.html#v1"><span class="id" title="variable">v1</span></a>) <a class="idref" href="TAL.Maps.html#i"><span class="id" title="variable">i</span></a> <a class="idref" href="TAL.Maps.html#v2"><span class="id" title="variable">v2</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Logic.html#6cd0f7b28b6092304087c7049437bb1a"><span class="id" title="notation">=</span></a> <a class="idref" href="TAL.Maps.html#p_update"><span class="id" title="definition">p_update</span></a> <a class="idref" href="TAL.Maps.html#m"><span class="id" title="variable">m</span></a> <a class="idref" href="TAL.Maps.html#i"><span class="id" title="variable">i</span></a> <a class="idref" href="TAL.Maps.html#v2"><span class="id" title="variable">v2</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">A</span> <span class="id" title="var">m</span> <span class="id" title="var">i</span> <span class="id" title="var">v1</span> <span class="id" title="var">v2</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">unfold</span> <a class="idref" href="TAL.Maps.html#p_update"><span class="id" title="definition">p_update</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <a class="idref" href="TAL.Maps.html#t_update_shadow"><span class="id" title="axiom">t_update_shadow</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">reflexivity</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <a name="p_update_same"><span class="id" title="lemma">p_update_same</span></a> : <span class="id" title="keyword">∀</span> (<span class="id" title="var">A</span> : <span class="id" title="keyword">Type</span>) (<span class="id" title="var">m</span> : <a class="idref" href="TAL.Maps.html#partial_map"><span class="id" title="definition">partial_map</span></a> <a class="idref" href="TAL.Maps.html#A"><span class="id" title="variable">A</span></a>) (<span class="id" title="var">i</span> : <a class="idref" href="TAL.Maps.html#id"><span class="id" title="inductive">id</span></a>) (<span class="id" title="var">v</span> : <a class="idref" href="TAL.Maps.html#A"><span class="id" title="variable">A</span></a>),<br/>
+&nbsp;&nbsp;<a class="idref" href="TAL.Maps.html#m"><span class="id" title="variable">m</span></a> <a class="idref" href="TAL.Maps.html#i"><span class="id" title="variable">i</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Logic.html#6cd0f7b28b6092304087c7049437bb1a"><span class="id" title="notation">=</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Datatypes.html#Some"><span class="id" title="constructor">Some</span></a> <a class="idref" href="TAL.Maps.html#v"><span class="id" title="variable">v</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="TAL.Maps.html#p_update"><span class="id" title="definition">p_update</span></a> <a class="idref" href="TAL.Maps.html#m"><span class="id" title="variable">m</span></a> <a class="idref" href="TAL.Maps.html#i"><span class="id" title="variable">i</span></a> <a class="idref" href="TAL.Maps.html#v"><span class="id" title="variable">v</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Logic.html#6cd0f7b28b6092304087c7049437bb1a"><span class="id" title="notation">=</span></a> <a class="idref" href="TAL.Maps.html#m"><span class="id" title="variable">m</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">A</span> <span class="id" title="var">m</span> <span class="id" title="var">i</span> <span class="id" title="var">v</span> <span class="id" title="var">H</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">unfold</span> <a class="idref" href="TAL.Maps.html#p_update"><span class="id" title="definition">p_update</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> &lt;- <span class="id" title="var">H</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="TAL.Maps.html#t_update_same"><span class="id" title="axiom">t_update_same</span></a>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <a name="p_update_permute"><span class="id" title="lemma">p_update_permute</span></a> : <span class="id" title="keyword">∀</span> (<span class="id" title="var">A</span> : <span class="id" title="keyword">Type</span>) (<span class="id" title="var">m</span> : <a class="idref" href="TAL.Maps.html#partial_map"><span class="id" title="definition">partial_map</span></a> <a class="idref" href="TAL.Maps.html#A"><span class="id" title="variable">A</span></a>) (<span class="id" title="var">i</span> <span class="id" title="var">j</span> : <a class="idref" href="TAL.Maps.html#id"><span class="id" title="inductive">id</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">v1</span> <span class="id" title="var">v2</span> : <a class="idref" href="TAL.Maps.html#A"><span class="id" title="variable">A</span></a>),<br/>
+&nbsp;&nbsp;<a class="idref" href="TAL.Maps.html#j"><span class="id" title="variable">j</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Logic.html#a0a5068f83a704fcfbda8cd473a6cfea"><span class="id" title="notation">≠</span></a> <a class="idref" href="TAL.Maps.html#i"><span class="id" title="variable">i</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="TAL.Maps.html#p_update"><span class="id" title="definition">p_update</span></a> (<a class="idref" href="TAL.Maps.html#p_update"><span class="id" title="definition">p_update</span></a> <a class="idref" href="TAL.Maps.html#m"><span class="id" title="variable">m</span></a> <a class="idref" href="TAL.Maps.html#j"><span class="id" title="variable">j</span></a> <a class="idref" href="TAL.Maps.html#v2"><span class="id" title="variable">v2</span></a>) <a class="idref" href="TAL.Maps.html#i"><span class="id" title="variable">i</span></a> <a class="idref" href="TAL.Maps.html#v1"><span class="id" title="variable">v1</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/distrib/V8.11.0/stdlib//Coq.Init.Logic.html#6cd0f7b28b6092304087c7049437bb1a"><span class="id" title="notation">=</span></a> <a class="idref" href="TAL.Maps.html#p_update"><span class="id" title="definition">p_update</span></a> (<a class="idref" href="TAL.Maps.html#p_update"><span class="id" title="definition">p_update</span></a> <a class="idref" href="TAL.Maps.html#m"><span class="id" title="variable">m</span></a> <a class="idref" href="TAL.Maps.html#i"><span class="id" title="variable">i</span></a> <a class="idref" href="TAL.Maps.html#v1"><span class="id" title="variable">v1</span></a>) <a class="idref" href="TAL.Maps.html#j"><span class="id" title="variable">j</span></a> <a class="idref" href="TAL.Maps.html#v2"><span class="id" title="variable">v2</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">A</span> <span class="id" title="var">m</span> <span class="id" title="var">i</span> <span class="id" title="var">j</span> <span class="id" title="var">v1</span> <span class="id" title="var">v2</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">unfold</span> <a class="idref" href="TAL.Maps.html#p_update"><span class="id" title="definition">p_update</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="TAL.Maps.html#t_update_permute"><span class="id" title="axiom">t_update_permute</span></a>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://coq.inria.fr/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>

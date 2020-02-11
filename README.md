@@ -20,3 +20,7 @@ coq_makefile -f _CoqProject -o Makefile
 ```
 
 This generates a `Makefile` that can be executed with `make`. The generated `Makefile` resolves dependencies and calls the Coq compiler `coqc`. Subsequently, the files can be opened and imported.
+
+## Documentation
+
+The documentation for the Coq files provided by this repository can be found [here](https://matthesjh.github.io/coq-tal/).
