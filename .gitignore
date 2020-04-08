@@ -33,3 +33,12 @@ lia.cache
 nia.cache
 nlia.cache
 nra.cache
+
+*.timing.diff
+*.v.after-timing
+*.v.before-timing
+*.v.timing
+time-of-build-after.log
+time-of-build-before.log
+time-of-build-both.log
+time-of-build-pretty.log
