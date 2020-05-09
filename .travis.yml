@@ -2,9 +2,11 @@ language: generic
 
 os: osx
 
-before_install:
-  - brew update
-  - brew install coq
+addons:
+  homebrew:
+    packages:
+      - coq
+    update: true
 
 script:
   - coqc -v
