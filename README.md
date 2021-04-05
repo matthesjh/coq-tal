@@ -1,6 +1,5 @@
 # Formalization of Typed Assembly Language (TAL) in Coq
 
-[![Build Status](https://travis-ci.com/matthesjh/coq-tal.svg?branch=master)](https://travis-ci.com/matthesjh/coq-tal)
 ![Build project](https://github.com/matthesjh/coq-tal/workflows/Build%20project/badge.svg)
 
 This repository contains an implementation of [Typed Assembly Language](https://www.cs.cornell.edu/talc/), more specifically the simplified version TAL-0, in Coq.
