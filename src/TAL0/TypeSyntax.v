@@ -214,7 +214,7 @@ Inductive ftv_null : ty -> Prop :=
   | FTV_ForAll : forall α τ,
     ftv_null (replace_ty τ α int) -> ftv_null (∀α.>τ).
 
-Fixpoint ftv_null_b (τ : ty) : bool :=
+Definition ftv_null_b (τ : ty) : bool :=
   (fix ftv_null_list_b (tvs : list nat) (t : ty) : bool :=
      match t with
        | int      => true
