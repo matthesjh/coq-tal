@@ -17,7 +17,7 @@ jobs:
       - name: Install Coq
         run: |
           brew update
-          brew install ocaml-findlib coq
+          brew install ocaml-findlib coq@8.17.1
       - name: Build
         run: |
           coqc -v
